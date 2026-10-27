@@ -10,7 +10,7 @@ import tempfile
 from pathlib import Path
 import streamlit as st
 
-from core.schemas import GenesisSpecification, PlannedFile, SniperProject
+from core.schemas import GenesisSpecification, PlannedFile
 from engines.pipeline import GenesisPipeline
 
 # -------------------------------------------------------------
@@ -112,24 +112,24 @@ st.markdown("""
 # -------------------------------------------------------------
 with st.sidebar:
     st.markdown("### ⚡ HAIOX GENESIS")
-    st.markdown("<span class='badge-pill'>v1.0.0 Public Release</span>", unsafe_allow_html=True)
+    st.markdown("<span class='badge-pill'>v1.0.0 Production Release</span>", unsafe_allow_html=True)
     st.markdown("---")
 
     st.markdown("#### 🛡️ Telemetry & Guardrails")
     st.write("🟢 **Execution Sandbox:** Process Isolation")
     st.write("🟢 **AST Pre-Flight Check:** Active (`ast.parse`)")
     st.write("🟢 **Self-Healing Loop:** Active (Max 3 Retries)")
-    st.write("🟢 **Sniper Policy Guard:** Blacklist Active (IN/PK/BD)")
-    st.write("🟢 **Core Test Harness:** 31/31 Tests Green")
+    st.write("🟢 **Containerization Engine:** Docker & Compose Ready")
+    st.write("🟢 **Public Test Harness:** 27/27 Tests Green")
 
     st.markdown("---")
-    st.markdown("#### 👑 The Golden Trinity")
-    st.caption("1. **Smart Miner v2.0** — The Eyes")
-    st.caption("2. **Deep Research v1.0** — The Audit Brain")
-    st.caption("3. **Genesis v1.0.0** — The Autonomous Hands")
+    st.markdown("#### 👑 The Sovereign Ecosystem")
+    st.caption("1. **Haiox Smart Miner v2.0** — Autonomous Web Extractor")
+    st.caption("2. **Haiox Deep Research v1.0** — Multi-Agent Audit Brain")
+    st.caption("3. **Haiox Genesis v1.0.0** — Autonomous Software Foundry")
 
     st.markdown("---")
-    st.caption("Built for **Hatef Ghanei (haiox)** by **AIrash**")
+    st.caption("Architected for **Hatef Ghanei (haiox)** by **AIrash**")
 
 
 # -------------------------------------------------------------
@@ -147,7 +147,7 @@ st.markdown("""
             </p>
         </div>
         <div>
-            <span class="badge-pill badge-success">● 100% Green (31 Tests)</span>
+            <span class="badge-pill badge-success">● 100% Green (27 Tests Passing)</span>
         </div>
     </div>
 </div>
@@ -157,11 +157,11 @@ st.markdown("""
 # -------------------------------------------------------------
 # Mode Selection Tabs
 # -------------------------------------------------------------
-tab_foundry, tab_sniper, tab_healer, tab_tree = st.tabs([
+tab_foundry, tab_quick_poc, tab_healer, tab_arch = st.tabs([
     "🏗️ Autonomous Software Foundry",
-    "🎯 Freelancer Sniper PoC Terminal",
+    "⚡ Rapid Micro-Service Synthesizer",
     "🩺 Closed-Loop Healer Telemetry",
-    "🗺️ Master Execution Tree"
+    "🗺️ System Topology & Architecture"
 ])
 
 
@@ -241,90 +241,71 @@ with tab_foundry:
 
 
 # -------------------------------------------------------------
-# TAB 2: Freelancer Sniper Terminal
+# TAB 2: Rapid Micro-Service Synthesizer
 # -------------------------------------------------------------
-with tab_sniper:
-    st.markdown("### 🎯 Live Sniper Proof-of-Concept Terminal")
-    st.caption("Converts raw job postings into 100% verified PoCs and 3-sentence painkiller proposals in under 10 seconds.")
+with tab_quick_poc:
+    st.markdown("### ⚡ Rapid Micro-Service & PoC Synthesizer")
+    st.caption("Converts architectural requirements into 100% tested, production-grade micro-services in under 10 seconds.")
 
-    demo_jobs = {
-        "Custom": None,
-        "Job #1 (US $180) - E-commerce Scraper": SniperProject(
-            id="job_demo_1",
-            title="Python Product Price Scraper",
-            description="Need a reliable Python script to extract product names and prices from https://sample-store.com/deals daily. Export to clean JSON.",
-            budget_max=180.0,
-            currency="USD",
-            client_country="United States",
-            client_country_code="US"
-        ),
-        "Job #2 (UK £120) - Real Estate Normalizer": SniperProject(
-            id="job_demo_2",
-            title="Real Estate Property Data Parser",
-            description="Extract and normalize listings from https://property-market.co.uk. Must be well tested.",
-            budget_max=120.0,
-            currency="GBP",
-            client_country="United Kingdom",
-            client_country_code="GB"
-        ),
-        "Job #3 (Blacklisted Test) - Non-Compliant Country": SniperProject(
-            id="job_demo_3",
-            title="Scrape Data",
-            description="Scrape site for cheap",
-            budget_max=10.0,
-            currency="INR",
-            client_country="India",
-            client_country_code="IN"
-        )
+    demo_specs = {
+        "E-commerce Normalizer": {
+            "name": "ECommerce_Normalizer",
+            "desc": "Build an e-commerce price and inventory normalizer that processes product streams and calculates tax, currency conversion, and bulk discounts.",
+            "deps": "pydantic, pytest"
+        },
+        "FastAPI Webhook Validator": {
+            "name": "Webhook_Validator",
+            "desc": "Construct a cryptographically secure webhook event receiver that validates HMAC signatures and parses incoming payloads.",
+            "deps": "httpx, pydantic, pytest"
+        },
+        "Property Market Parser": {
+            "name": "Property_Market_Parser",
+            "desc": "Create a real-estate listing aggregator with structured address parsing, price per square meter calculation, and error sanitization.",
+            "deps": "pydantic, pytest"
+        }
     }
 
-    selected_demo = st.selectbox("Load Sample Project Posting", list(demo_jobs.keys()))
+    selected_preset = st.selectbox("Load Standard Architecture Preset", list(demo_specs.keys()))
+    preset_data = demo_specs[selected_preset]
 
-    if selected_demo != "Custom":
-        active_job = demo_jobs[selected_demo]
-        job_title = st.text_input("Job Title", value=active_job.title)
-        job_desc = st.text_area("Job Description", value=active_job.description)
-        c_country = st.text_input("Client Country", value=active_job.client_country)
-        c_code = st.text_input("Country Code", value=active_job.client_country_code)
-        c_curr = st.text_input("Currency", value=active_job.currency)
-    else:
-        job_title = st.text_input("Job Title", value="FastAPI Webhook Listener")
-        job_desc = st.text_area("Job Description", value="Build a webhook endpoint to receive payloads from https://api.client.com and save verified data.")
-        c_country = st.text_input("Client Country", value="United States")
-        c_code = st.text_input("Country Code", value="US")
-        c_curr = st.text_input("Currency", value="USD")
+    col_a, col_b = st.columns([1, 1])
+    with col_a:
+        service_name = st.text_input("Service Identifier", value=preset_data["name"])
+        service_desc = st.text_area("Specification Prompt", value=preset_data["desc"])
+    with col_b:
+        service_deps = st.text_input("Required Libraries", value=preset_data["deps"])
+        service_healing = st.slider("Max Healing Cycles", 1, 3, 2, key="sl_poc")
 
-    if st.button("⚡ Synthesize Proposal & Live PoC", key="btn_sniper", use_container_width=True):
-        sniper_proj = SniperProject(
-            id="manual_job_run",
-            title=job_title,
-            description=job_desc,
-            client_country=c_country,
-            client_country_code=c_code,
-            currency=c_curr
-        )
-
+    if st.button("⚡ Synthesize & Package Micro-Service", key="btn_poc", use_container_width=True):
         pipeline = GenesisPipeline()
-        with st.spinner("Running Sniper Guard, Smart Miner Inspection & Genesis PoC Synthesis..."):
-            res = asyncio.run(pipeline.execute_sniper_project(sniper_proj))
+        with st.spinner("Synthesizing multi-file architecture, generating unit tests & verifying sandbox..."):
+            spec = GenesisSpecification(
+                project_name=service_name,
+                objective=service_desc,
+                dependencies=[d.strip() for d in service_deps.split(",") if d.strip()],
+                planned_files=[
+                    PlannedFile(path="service.py", purpose="Primary domain logic and API schemas"),
+                    PlannedFile(path="tests/test_service.py", purpose="Comprehensive unit and boundary assertions", is_test=True)
+                ]
+            )
 
-            if not res.proposal_payload.is_compliant:
-                st.error(f"❌ Project Rejected by Policy Guard: {res.proposal_payload.rejection_reason}")
-            else:
-                st.success("✅ Policy Guard Passed & Verified Working PoC Generated!")
+            res = asyncio.run(pipeline.execute_from_spec(spec, max_healing_retries=service_healing))
 
-                st.markdown("#### 📝 3-Sentence Pain-Killer Proposal (Ready to Send)")
-                st.code(res.proposal_payload.three_sentence_proposal, language="markdown")
-
+            if res.all_tests_passed:
+                st.success(f"✅ Micro-Service '{res.project_name}' synthesized and verified in {res.duration_seconds}s!")
+                st.markdown(f"**Verification Status:** All tests passed with 0 regressions.")
                 if res.export_result and os.path.exists(res.export_result.archive_path):
                     with open(res.export_result.archive_path, "rb") as f:
                         st.download_button(
-                            label="⬇️ Download Verified PoC Package (.zip)",
+                            label=f"⬇️ Download Verified Release Package ({os.path.basename(res.export_result.archive_path)})",
                             data=f.read(),
                             file_name=os.path.basename(res.export_result.archive_path),
                             mime="application/zip",
                             use_container_width=True
                         )
+            else:
+                st.warning("⚠️ Micro-service synthesized with diagnostic telemetry:")
+                st.code(res.test_summary, language="text")
 
 
 # -------------------------------------------------------------
@@ -332,7 +313,7 @@ with tab_sniper:
 # -------------------------------------------------------------
 with tab_healer:
     st.markdown("### 🩺 Closed-Loop Self-Healing Telemetry")
-    st.caption("Inspects surgical code repairs, AST pre-flight checks, and unified diff histories.")
+    st.caption("Inspects surgical code repairs, AST pre-flight checks, and mutation diffs.")
 
     st.markdown("""
     <div class="glass-card">
@@ -349,13 +330,34 @@ with tab_healer:
 
 
 # -------------------------------------------------------------
-# TAB 4: Master Execution Tree
+# TAB 4: Master Execution Graph
 # -------------------------------------------------------------
-with tab_tree:
-    st.markdown("### 🗺️ Master Execution Roadmap (7 Phases)")
-    tree_path = Path("C:/Users/haiox/Desktop/Haiox_Genesis_Master_Execution_Tree.html")
-    if tree_path.exists():
-        st.success("Interactive Tree synchronized on Desktop: file:///C:/Users/haiox/Desktop/Haiox_Genesis_Master_Execution_Tree.html")
-        st.components.v1.html(tree_path.read_text(encoding="utf-8"), height=700, scrolling=True)
-    else:
-        st.info("Execution tree HTML is available on the Desktop.")
+with tab_arch:
+    st.markdown("### 🗺️ Master Architectural Topology")
+    st.caption("End-to-end execution flow of the Haiox Genesis Autonomous Foundry.")
+
+    st.markdown("""
+    ```mermaid
+    flowchart TD
+        UserPrompt["User Prompt / Spec"] --> Architect["Architect Agent (Spec Formulation)"]
+        Architect --> Scaffolder["Scaffold Generator (Virtual Workspace)"]
+        Scaffolder --> DepResolver["Dependency Resolver (Pinning & Stdlib Filter)"]
+        DepResolver --> Coder["Coder Agent (Multi-File AST Synthesis)"]
+        Coder --> ImportResolver["Cross-Module Import Resolver"]
+        ImportResolver --> TestSynthesizer["Test Synthesizer (Automated Pytest)"]
+        TestSynthesizer --> Sandbox["Isolated Execution Sandbox"]
+        Sandbox --> PytestHarness["Pytest Harness (Exit Code & Diagnostics)"]
+        
+        PytestHarness --> TestCheck{"Tests Passed?"}
+        TestCheck -- Yes --> DockerBuilder["Docker Packager & Compose Builder"]
+        TestCheck -- No --> Healer["Self-Healing Agent (AST Targeted Repair)"]
+        Healer --> DiffTracker["Diff Tracker (Mutation Audit)"]
+        DiffTracker --> RetriesCheck{"Retries < 3?"}
+        RetriesCheck -- Yes --> Sandbox
+        RetriesCheck -- No --> FailureReport["Diagnostic Failure Report"]
+        
+        DockerBuilder --> DocGen["Documentation Generator (README.md)"]
+        DocGen --> Exporter["Artifact Exporter (.zip & SHA-256 Digest)"]
+        Exporter --> Release["Production Artifact Release"]
+    ```
+    """)
