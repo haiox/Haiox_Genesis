@@ -28,9 +28,17 @@ from agents.healer_agent import SelfHealingAgent
 from packager.docker_builder import DockerBuilder
 from packager.doc_generator import DocumentationGenerator
 from packager.artifact_exporter import ArtifactExporter
-from integrations.sniper_bridge import SniperBridge
-from integrations.miner_feeder import MinerFeeder
-from integrations.proposal_enricher import ProposalEnricher
+
+try:
+    from integrations.sniper_bridge import SniperBridge
+    from integrations.miner_feeder import MinerFeeder
+    from integrations.proposal_enricher import ProposalEnricher
+    HAS_SNIPER = True
+except ImportError:
+    SniperBridge = None
+    MinerFeeder = None
+    ProposalEnricher = None
+    HAS_SNIPER = False
 
 
 class GenesisPipeline:
@@ -52,9 +60,14 @@ class GenesisPipeline:
         self.docker_builder = DockerBuilder()
         self.doc_generator = DocumentationGenerator()
         self.artifact_exporter = ArtifactExporter()
-        self.sniper_bridge = SniperBridge()
-        self.miner_feeder = MinerFeeder()
-        self.proposal_enricher = ProposalEnricher()
+        if HAS_SNIPER and SniperBridge is not None:
+            self.sniper_bridge = SniperBridge()
+            self.miner_feeder = MinerFeeder()
+            self.proposal_enricher = ProposalEnricher()
+        else:
+            self.sniper_bridge = None
+            self.miner_feeder = None
+            self.proposal_enricher = None
 
     async def execute_from_spec(
         self,
@@ -122,6 +135,22 @@ class GenesisPipeline:
         Pytest Verification -> Painkiller Proposal with PoC Code.
         """
         start_time = time.perf_counter()
+
+        if not HAS_SNIPER or self.sniper_bridge is None:
+            return GenesisRunResult(
+                project_name=project.title,
+                specification=GenesisSpecification(project_name="restricted", objective="private_module"),
+                workspace_dir="",
+                all_tests_passed=False,
+                proposal_payload=SniperProposalPayload(
+                    project_id=project.id,
+                    three_sentence_proposal="[Haiox Private Core] Freelancer Sniper live bidding and target scraping are restricted to private nodes.",
+                    poc_code_snippet="# Proprietary integration bridge active on internal infrastructure.",
+                    is_compliant=False,
+                    rejection_reason="Private enterprise module"
+                ),
+                duration_seconds=round(time.perf_counter() - start_time, 2)
+            )
 
         # 1. Policy Evaluation
         approved, reason = self.sniper_bridge.evaluate_project(project)
