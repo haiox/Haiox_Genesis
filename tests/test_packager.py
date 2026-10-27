@@ -146,7 +146,7 @@ def test_artifact_exporter_clean_archive_without_cache_files(temp_workspace_dir)
     with zipfile.ZipFile(result.archive_path, "r") as z:
         namelist = z.namelist()
         assert "app.py" in namelist
-        # Verify blacklisted artifacts are stripped
+        # Verify excluded artifacts are stripped
         for item in namelist:
             assert "__pycache__" not in item
             assert ".pytest_cache" not in item

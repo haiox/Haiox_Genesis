@@ -64,7 +64,7 @@ class ArtifactExporter:
         # Build clean zip archive
         with zipfile.ZipFile(zip_filepath, "w", zipfile.ZIP_DEFLATED) as zip_file:
             for rel_path, pfile in sorted(workspace.files.items()):
-                # Exclude blacklisted paths
+                # Exclude ignore paths
                 if self._is_excluded(rel_path):
                     continue
 
