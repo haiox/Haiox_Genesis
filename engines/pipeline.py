@@ -11,9 +11,7 @@ from typing import Optional, Union
 
 from core.schemas import (
     GenesisSpecification,
-    GenesisRunResult,
-    SniperProject,
-    SniperProposalPayload
+    GenesisRunResult
 )
 from core.sandbox import SandboxEngine
 from core.workspace import VirtualWorkspace
@@ -28,17 +26,6 @@ from agents.healer_agent import SelfHealingAgent
 from packager.docker_builder import DockerBuilder
 from packager.doc_generator import DocumentationGenerator
 from packager.artifact_exporter import ArtifactExporter
-
-try:
-    from integrations.sniper_bridge import SniperBridge
-    from integrations.miner_feeder import MinerFeeder
-    from integrations.proposal_enricher import ProposalEnricher
-    HAS_SNIPER = True
-except ImportError:
-    SniperBridge = None
-    MinerFeeder = None
-    ProposalEnricher = None
-    HAS_SNIPER = False
 
 
 class GenesisPipeline:
@@ -60,14 +47,6 @@ class GenesisPipeline:
         self.docker_builder = DockerBuilder()
         self.doc_generator = DocumentationGenerator()
         self.artifact_exporter = ArtifactExporter()
-        if HAS_SNIPER and SniperBridge is not None:
-            self.sniper_bridge = SniperBridge()
-            self.miner_feeder = MinerFeeder()
-            self.proposal_enricher = ProposalEnricher()
-        else:
-            self.sniper_bridge = None
-            self.miner_feeder = None
-            self.proposal_enricher = None
 
     async def execute_from_spec(
         self,
@@ -120,77 +99,5 @@ class GenesisPipeline:
             test_summary=healing_report.final_summary,
             healing_report=healing_report,
             export_result=export_result,
-            proposal_payload=None,
             duration_seconds=round(duration, 2)
         )
-
-    async def execute_sniper_project(
-        self,
-        project: SniperProject,
-        workspace_dir: Optional[Union[str, Path]] = None
-    ) -> GenesisRunResult:
-        """
-        Executes the complete Freelancer Sniper pipeline:
-        Policy Guard -> Target Mining -> Specification -> Genesis Synthesis ->
-        Pytest Verification -> Painkiller Proposal with PoC Code.
-        """
-        start_time = time.perf_counter()
-
-        if not HAS_SNIPER or self.sniper_bridge is None:
-            return GenesisRunResult(
-                project_name=project.title,
-                specification=GenesisSpecification(project_name="restricted", objective="private_module"),
-                workspace_dir="",
-                all_tests_passed=False,
-                proposal_payload=SniperProposalPayload(
-                    project_id=project.id,
-                    three_sentence_proposal="[Haiox Private Core] Freelancer Sniper live bidding and target scraping are restricted to private nodes.",
-                    poc_code_snippet="# Proprietary integration bridge active on internal infrastructure.",
-                    is_compliant=False,
-                    rejection_reason="Private enterprise module"
-                ),
-                duration_seconds=round(time.perf_counter() - start_time, 2)
-            )
-
-        # 1. Policy Evaluation
-        approved, reason = self.sniper_bridge.evaluate_project(project)
-        if not approved:
-            return GenesisRunResult(
-                project_name=project.title,
-                specification=GenesisSpecification(project_name="rejected", objective="policy_rejection"),
-                workspace_dir="",
-                all_tests_passed=False,
-                proposal_payload=SniperProposalPayload(
-                    project_id=project.id,
-                    three_sentence_proposal="",
-                    poc_code_snippet="",
-                    is_compliant=False,
-                    rejection_reason=reason
-                ),
-                duration_seconds=round(time.perf_counter() - start_time, 2)
-            )
-
-        # 2. Ground-Truth Target Mining
-        evidence = self.miner_feeder.inspect_target(project)
-
-        # 3. Specification Formulation
-        spec = self.sniper_bridge.transform_to_specification(project, evidence)
-
-        # 4. Pipeline Execution
-        run_result = await self.execute_from_spec(spec, workspace_dir=workspace_dir)
-
-        # 5. Proposal Synthesis & PoC Injection
-        # Load virtual workspace from directory
-        ws = VirtualWorkspace(run_result.workspace_dir)
-        ws.load_from_disk()
-
-        proposal = self.proposal_enricher.enrich_and_synthesize(
-            project=project,
-            workspace=ws,
-            export_result=run_result.export_result,
-            mined_evidence=evidence
-        )
-
-        run_result.proposal_payload = proposal
-        run_result.duration_seconds = round(time.perf_counter() - start_time, 2)
-        return run_result

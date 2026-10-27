@@ -135,41 +135,6 @@ class ExportArtifactResult:
 
 
 @dataclass
-class SniperProject:
-    id: str
-    title: str
-    description: str
-    budget_min: float = 0.0
-    budget_max: float = 250.0
-    currency: str = "USD"
-    client_country: str = "United States"
-    client_country_code: str = "US"
-    target_url: Optional[str] = None
-    skills: List[str] = field(default_factory=list)
-
-
-@dataclass
-class MinedTargetEvidence:
-    url: str
-    domain: str
-    detected_fields: List[str] = field(default_factory=list)
-    detected_framework: Optional[str] = None
-    has_waf: bool = False
-    status_code: int = 200
-
-
-@dataclass
-class SniperProposalPayload:
-    project_id: str
-    three_sentence_proposal: str
-    poc_code_snippet: str
-    archive_zip_path: Optional[str] = None
-    sha256_hash: Optional[str] = None
-    is_compliant: bool = True
-    rejection_reason: Optional[str] = None
-
-
-@dataclass
 class GenesisRunResult:
     project_name: str
     specification: GenesisSpecification
@@ -178,7 +143,6 @@ class GenesisRunResult:
     test_summary: Optional[TestRunSummary] = None
     healing_report: Optional[HealingReport] = None
     export_result: Optional[ExportArtifactResult] = None
-    proposal_payload: Optional[SniperProposalPayload] = None
     duration_seconds: float = 0.0
 
 
