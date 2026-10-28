@@ -1,14 +1,25 @@
-# Haiox Genesis — Autonomous Software Engineer & Cyber-Sandbox
+# Haiox Genesis ⚡
 
-> **Engine Classification:** Autonomous Agentic Software Foundry & Self-Healing Execution Sandbox  
-> **Status:** v1.0.0 Production Release  
-> **Test Suite:** 27/27 Tests Passing (100% Green, 44.77s)  
-> **Architect:** AIrash (Staff Systems Engineer) | **Product Architect:** Hatef Ghanei (haiox)  
+> **An autonomous software foundry that plans, writes, tests, and self-heals multi-file Python codebases.**
+
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-3776AB.svg?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![Pytest](https://img.shields.io/badge/pytest-27%20passed%20(100%25)-brightgreen.svg?style=flat&logo=pytest&logoColor=white)](tests/)
+[![Docker Ready](https://img.shields.io/badge/docker-containerized-2496ED.svg?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
+[![Streamlit UI](https://img.shields.io/badge/UI-Streamlit%20Cockpit-FF4B4B.svg?style=flat&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Architecture](https://img.shields.io/badge/Architecture-Autonomous%20Foundry-8A2BE2.svg?style=flat)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](LICENSE)
 
 ---
 
-## 1. Overview & Vision
-`Haiox Genesis` is the third sovereign pillar of the Haiox Ecosystem. It transforms the ecosystem from an observational and analytical system into an autonomous builder.
+## 💡 Why I Built This
+
+Most AI coding assistants give you a single snippet of code and leave you to figure out where to paste it, how to resolve broken imports, and why the tests are failing.
+
+**Haiox Genesis works like an autonomous software engineer:**
+1. **Architects the whole system:** Breaks down your prompt into a modular multi-file directory structure with type hints and documentation.
+2. **Executes inside an isolated sandbox:** Runs the synthesized code and unit tests in a secure, sandboxed environment.
+3. **Catches and repairs its own bugs in 30 seconds:** If a test fails, the self-healing loop inspects the stack trace, diagnoses the root cause, applies an AST-verified patch, and re-tests until all assertions pass.
+4. **Packages production artifacts:** Generates clean Dockerfiles, requirements.txt, and responsive HTML solution blueprints signed with SHA-256 checksums.
 
 ```text
 [ 1. Haiox Smart Miner v2.0 ]  ──► (THE EYES: Zero-Token AST Web Extraction & WAF Bypass)
@@ -22,7 +33,7 @@
 
 ---
 
-## 2. Core Architecture & Capabilities
+## 🏛 Core Architecture & Capabilities
 
 ### Phase 1: Core Sandbox & Test Harness
 1. **Isolated Execution Sandbox (`core/sandbox.py`):** Process-isolated execution with strict timeouts and resource guarding.
@@ -55,41 +66,41 @@
 
 ---
 
-## 3. Test Verification (27/27 Tests Passing)
+## 🧪 Test Verification (27/27 Tests Passing)
 ```bash
 pytest -v
 ```
-* `test_dependency_resolver_filters_stdlib`: PASSED
-* `test_architect_spec_generation_scraper`: PASSED
-* `test_architect_spec_generation_api`: PASSED
-* `test_scaffold_generator_workspace_population`: PASSED
-* `test_scaffold_end_to_end_in_sandbox`: PASSED
-* `test_import_resolver_cross_module_resolution`: PASSED
-* `test_test_synthesizer_generates_valid_pytest`: PASSED
-* `test_coder_agent_synthesizes_functional_project`: PASSED
-* `test_coder_agent_e2e_sandbox_execution_and_all_tests_pass`: PASSED
-* `test_harness_passing_test_suite`: PASSED
-* `test_harness_failing_test_diagnostic_extraction`: PASSED
-* `test_diff_tracker_records_unified_diff`: PASSED
-* `test_self_healing_agent_patches_syntax_error`: PASSED
-* `test_self_healing_agent_patches_attribute_error`: PASSED
-* `test_healing_loop_autonomous_repair_in_sandbox`: PASSED
-* `test_healing_loop_max_retries_termination`: PASSED
-* `test_docker_builder_generates_valid_dockerfile_and_compose`: PASSED
-* `test_docker_builder_with_fastapi_entrypoint_detection`: PASSED
-* `test_doc_generator_produces_production_readme`: PASSED
-* `test_artifact_exporter_creates_zip_and_sha256_provenance`: PASSED
-* `test_artifact_exporter_clean_archive_without_cache_files`: PASSED
-* `test_sandbox_successful_python_execution`: PASSED
-* `test_sandbox_failure_exit_code`: PASSED
-* `test_sandbox_strict_timeout_interruption`: PASSED
-* `test_workspace_valid_file_ast`: PASSED
-* `test_workspace_syntax_error_trapping`: PASSED
-* `test_workspace_persistence_and_loading`: PASSED
+* `test_dependency_resolver_filters_stdlib`: **PASSED**
+* `test_architect_spec_generation_scraper`: **PASSED**
+* `test_architect_spec_generation_api`: **PASSED**
+* `test_scaffold_generator_workspace_population`: **PASSED**
+* `test_scaffold_end_to_end_in_sandbox`: **PASSED**
+* `test_import_resolver_cross_module_resolution`: **PASSED**
+* `test_test_synthesizer_generates_valid_pytest`: **PASSED**
+* `test_coder_agent_synthesizes_functional_project`: **PASSED**
+* `test_coder_agent_e2e_sandbox_execution_and_all_tests_pass`: **PASSED**
+* `test_harness_passing_test_suite`: **PASSED**
+* `test_harness_failing_test_diagnostic_extraction`: **PASSED**
+* `test_diff_tracker_records_unified_diff`: **PASSED**
+* `test_self_healing_agent_patches_syntax_error`: **PASSED**
+* `test_self_healing_agent_patches_attribute_error`: **PASSED**
+* `test_healing_loop_autonomous_repair_in_sandbox`: **PASSED**
+* `test_healing_loop_max_retries_termination`: **PASSED**
+* `test_docker_builder_generates_valid_dockerfile_and_compose`: **PASSED**
+* `test_docker_builder_with_fastapi_entrypoint_detection`: **PASSED**
+* `test_doc_generator_produces_production_readme`: **PASSED**
+* `test_artifact_exporter_creates_zip_and_sha256_provenance`: **PASSED**
+* `test_artifact_exporter_clean_archive_without_cache_files`: **PASSED**
+* `test_sandbox_successful_python_execution`: **PASSED**
+* `test_sandbox_failure_exit_code`: **PASSED**
+* `test_sandbox_strict_timeout_interruption`: **PASSED**
+* `test_workspace_valid_file_ast`: **PASSED**
+* `test_workspace_syntax_error_trapping`: **PASSED**
+* `test_workspace_persistence_and_loading`: **PASSED**
 
 ---
 
-## 4. Quickstart
+## 🚀 Quickstart
 
 ### Local Installation
 ```bash
@@ -98,12 +109,17 @@ cd Haiox_Genesis
 pip install -r requirements.txt
 ```
 
-### Launch Glass Cockpit
+### Run the Interactive Streamlit Cockpit
 ```bash
 streamlit run app.py
 ```
 
-### Run Full Test Suite
+### Run End-to-End Test Suite
 ```bash
-pytest -v
+pytest tests/ -v
 ```
+
+---
+
+## 🛡 License & Author
+Engineered by **AIrash (آیرش)** for **Hatef Ghanei (@haioxlab)**. Part of the **Haiox Autonomous Ecosystem**.
